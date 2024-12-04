@@ -11,11 +11,11 @@ const ReservationSchema = Schema({
         ref: 'Room',
         required: true
     },
-    startDate: {
+    checkIn: {
         type: Date,
         required: true
     },
-    endDate: {
+    checkOut: {
         type: Date,
         required: true
     },
@@ -30,12 +30,6 @@ const ReservationSchema = Schema({
     status: {
         type: String,
         enum: ['pending', 'confirmed', 'cancelled'],
-        default: 'pending'
-    },
-    paymentStatus: {
-        type: String,
-        enum: ['pending', 'paid', 'failed'],
-        default: 'pending'
     },
     createdAt: {
         type: Date,

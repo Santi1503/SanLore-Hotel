@@ -9,6 +9,7 @@ import { Logout } from "../Components/user/Logout";
 import { Config } from "../Components/user/Config";
 import { ActiveReservations } from "../Components/reservation/ActiveReservations";
 import { ReservationHistory } from "../Components/reservation/ReservationHistory";
+import { CreateReservation } from "../Components/reservation/CreateReservation";
 
 export const Routing = () => {
   return (
@@ -26,6 +27,7 @@ export const Routing = () => {
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="active" element={<ActiveReservations />} />
             <Route path="history" element={<ReservationHistory />} />
+            <Route path="create" element={<CreateReservation />} />
             <Route path="logout" element={<Logout />} />
             <Route path="config" element={<Config />} />
           </Route>

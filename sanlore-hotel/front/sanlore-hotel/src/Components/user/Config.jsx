@@ -29,81 +29,60 @@ export const Config = () => {
     if (uploadData.status == "success") {
       setAuth(uploadData.user);
       setSaved("saved");
+      setTimeout(() => {
+        window.location.href = "/booking";
+      }, 1000);
     } else {
       setSaved("error");
-    }
-
-    const fileInput = document.querySelector("#file");
-
-    if (uploadData.status == "success" && fileInput.files[0]) {
-      const formData = new FormData();
-      formData.append("file0", fileInput.files[0]);
-
-      const uploadRequest = await fetch(Global.url + "user/upload", {
-        method: "POST",
-        body: formData,
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: token,
-        },
-      });
-
-      const uploadDataImage = await uploadRequest.json();
-
-      if (uploadDataImage.status == "success" && uploadData.user) {
-        setAuth(uploadData.user);
-        setSaved("saved");
-      } else {
-        setSaved("error");
-      }
     }
   };
 
   return (
     <>
-      <header className="content__header content__header--public">
-        <h1 className="content__title">Ajustes</h1>
-      </header>
-
-      <div className="content__posts">
-        {saved == "saved" ? (
-          <strong className="alert alert-success">
-            Usuario actualizado exitosamente
-          </strong>
-        ) : (
-          ""
-        )}
-
-        {saved == "error" ? (
-          <strong className="alert alert-danger">
-            Ha ocurrido un error actualizando el usuario
-          </strong>
-        ) : (
-          ""
-        )}
-
-        <form className="config-form" onSubmit={updateUser}>
-          <div className="form-group">
-            <label htmlFor="name">Nombre</label>
-            <input type="text" name="name" defaultValue={auth.name} />
+      <div className="content_post">
+        <div className="card config-card">
+          <div className="card-small-title">
+            <h3 className="content__title">Ajustes</h3>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="surname">Apellido</label>
-            <input type="text" name="surname" defaultValue={auth.surname} />
-          </div>
+          <form className="config-form" onSubmit={updateUser}>
+            <div className="form-group">
+              <label htmlFor="name">Nombre</label>
+              <input type="text" name="name" defaultValue={auth.name} />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="email">Correo Electrónico</label>
-            <input type="email" name="email" defaultValue={auth.email} />
-          </div>
+            <div className="form-group">
+              <label htmlFor="surname">Apellido</label>
+              <input type="text" name="surname" defaultValue={auth.surname} />
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="password">Cambiar contraseña</label>
-            <input type="password" name="password" />
-          </div>
-          <input type="submit" value="Actualizar" className="btn btn-success" />
-        </form>
+            <div className="form-group">
+              <label htmlFor="email">Correo Electrónico</label>
+              <input type="email" name="email" defaultValue={auth.email} />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="password">Cambiar contraseña</label>
+              <input type="password" name="password" />
+            </div>
+            <input
+              type="submit"
+              value="Actualizar"
+              className="btn btn-success"
+            />
+            {saved == "saved" && (
+              <div className="alert alert-success">
+                Usuario actualizado exitosamente
+              </div>
+            )}
+
+            {saved == "error" && (
+              <div className="alert alert-danger">
+                Ha ocurrido un error actualizando el usuario
+              </div>
+            )}
+          </form>
+        </div>
       </div>
     </>
   );
