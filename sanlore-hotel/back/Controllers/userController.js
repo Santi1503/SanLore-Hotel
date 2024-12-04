@@ -98,8 +98,8 @@ const login = async (req, res) => {
                 name: user.name,
                 surname: user.surname,
                 email: user.email,
-                token
-            }
+            },
+            token
         })
     } catch (error) {
         if (error) {
