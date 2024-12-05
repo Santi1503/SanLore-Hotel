@@ -7,9 +7,9 @@ import { AuthProvider } from "../Context/AuthProvider";
 import { Dashboard } from "../Components/reservation/Dashboard";
 import { Logout } from "../Components/user/Logout";
 import { Config } from "../Components/user/Config";
-import { ActiveReservations } from "../Components/reservation/ActiveReservations";
 import { ReservationHistory } from "../Components/reservation/ReservationHistory";
 import { CreateReservation } from "../Components/reservation/CreateReservation";
+import { PendingReservations } from "../Components/reservation/PendingReservations";
 
 export const Routing = () => {
   return (
@@ -25,7 +25,7 @@ export const Routing = () => {
           <Route path="/booking" element={<PrivateLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="dashboard" element={<Dashboard />} />
-            <Route path="active" element={<ActiveReservations />} />
+            <Route path="pending" element={<PendingReservations />} />
             <Route path="history" element={<ReservationHistory />} />
             <Route path="create" element={<CreateReservation />} />
             <Route path="logout" element={<Logout />} />

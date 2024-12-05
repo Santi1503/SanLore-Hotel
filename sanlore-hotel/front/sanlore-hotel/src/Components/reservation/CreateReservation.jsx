@@ -10,7 +10,7 @@ export const CreateReservation = () => {
   const [message, setMessage] = useState("");
   const [totalPrice, setTotalPrice] = useState(0);
   const [showModal, setShowModal] = useState(false);
-  const [reservationStatus, setReservationStatus] = useState("");
+  const [saved, setSaved] = useState("not_saved");
 
   useEffect(() => {
     fetchRooms();
@@ -83,8 +83,13 @@ export const CreateReservation = () => {
         setCheckOut("");
         setNumberOfGuests(1);
         setTotalPrice(0);
+        setSaved("saved");
+        setTimeout(() => {
+          window.location.href = "/booking/dashboard";
+        }, 1000);
       } else {
         setMessage(data.message || "Failed to create reservation.");
+        setSaved("error");
       }
     } catch (error) {
       console.error("Error creating reservation:", error);
@@ -95,79 +100,105 @@ export const CreateReservation = () => {
   };
 
   return (
-    <div className="create-reservation">
-      <h1>Create a Reservation</h1>
-      {message && <p>{message}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>
-          Room:
-          <select
-            value={selectedRoom}
-            onChange={(e) => setSelectedRoom(e.target.value)}
-            required
-          >
-            <option value="">Select a room</option>
-            {rooms.map((room) => (
-              <option key={room._id} value={room._id}>
-                {room.name} - ${room.pricePerNight}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Check-In:
-          <input
-            type="date"
-            value={checkIn}
-            onChange={(e) => setCheckIn(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Check-Out:
-          <input
-            type="date"
-            value={checkOut}
-            onChange={(e) => setCheckOut(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          Number of guests:
-          <select
-            value={numberOfGuests}
-            onChange={(e) => setNumberOfGuests(parseInt(e.target.value, 10))}
-            required
-          >
-            {[...Array(10).keys()].map((num) => (
-              <option key={num + 1} value={num + 1}>
-                {num + 1}
-              </option>
-            ))}
-          </select>
-        </label>
-        <p>Total Price: ${totalPrice}</p>
-        <button type="submit">Reserve</button>
-      </form>
-
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Confirm Reservation</h2>
-            <p>Total Price: ${totalPrice}</p>
-            <p>
-              Do you want to confirm the reservation or leave it as pending?
-            </p>
-            <button onClick={() => confirmReservation("confirmed")}>
-              Confirm
-            </button>
-            <button onClick={() => confirmReservation("pending")}>
-              Pending
-            </button>
-            <button onClick={() => setShowModal(false)}>Cancel</button>
-          </div>
+    <div className="content_post">
+      <div className="card createReservation-card">
+        <div className="card-small-title">
+          <h3>Create a Reservation</h3>
         </div>
-      )}
+        {saved === "saved" && (
+          <div className="alert alert-success">
+            Reservation created successfully
+          </div>
+        )}
+        {saved === "error" && (
+          <div className="alert alert-danger">{message}</div>
+        )}
+        <form className="form-reservation" onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="room">
+              Room:
+              <select
+                value={selectedRoom}
+                onChange={(e) => setSelectedRoom(e.target.value)}
+                required
+              >
+                <option value="">Select a room</option>
+                {rooms.map((room) => (
+                  <option key={room._id} value={room._id}>
+                    {room.name} - ${room.pricePerNight}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="checkIn">
+              Check-In:
+              <input
+                type="date"
+                value={checkIn}
+                onChange={(e) => setCheckIn(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="checkOut">
+              Check-Out:
+              <input
+                type="date"
+                value={checkOut}
+                onChange={(e) => setCheckOut(e.target.value)}
+                required
+              />
+            </label>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="numberOfGuests">
+              Number of guests:
+              <select
+                value={numberOfGuests}
+                onChange={(e) =>
+                  setNumberOfGuests(parseInt(e.target.value, 10))
+                }
+                required
+              >
+                {[...Array(10).keys()].map((num) => (
+                  <option key={num + 1} value={num + 1}>
+                    {num + 1}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <p>Total Price: ${totalPrice}</p>
+          <button className="btn btn-success" type="submit">
+            Reserve
+          </button>
+        </form>
+
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <h2>Confirm Reservation</h2>
+              <p>Total Price: ${totalPrice}</p>
+              <p>
+                Do you want to confirm the reservation or leave it as pending?
+              </p>
+              <button onClick={() => confirmReservation("confirmed")}>
+                Confirm
+              </button>
+              <button onClick={() => confirmReservation("pending")}>
+                Pending
+              </button>
+              <button onClick={() => setShowModal(false)}>Cancel</button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

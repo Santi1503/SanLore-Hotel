@@ -102,19 +102,33 @@ const cancelReservation = async (req, res) => {
     }
 };
 
-const getRoomSuggestions = async (req, res) => {
+const getActiveReservations = async (req, res) => {
     try {
         const userId = req.user.id
 
-        const userReservations = await Reservation.find({ user: userId }).select('room')
-        const reservedRoomIds = userReservations.map((reservation) => reservation.room)
+        const activeReservations = await Reservation.find({
+            user: userId,
+            status: 'confirmed',
+            checkOut: { $gte: new Date() }
+        }).populate('room')
 
-        const suggestedRooms = await Room.find({
-            _id: { $nin: reservedRoomIds },
-            availability: true
-        })
-        
-        res.status(200).json(suggestedRooms)
+        res.status(200).json(activeReservations)
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Server error" });
+    }
+}
+
+const getPendingReservations = async (req, res) => {
+    try {
+        const userId = req.user.id
+
+        const pendingReservations = await Reservation.find({
+            user: userId,
+            status: 'pending',
+        }).populate('room')
+
+        res.status(200).json(pendingReservations)
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Server error" });
@@ -126,5 +140,6 @@ module.exports = {
     getReservations,
     updateReservation,
     cancelReservation,
-    getRoomSuggestions,
+    getActiveReservations,
+    getPendingReservations
 };

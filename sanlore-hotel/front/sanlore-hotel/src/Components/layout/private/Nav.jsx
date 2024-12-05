@@ -12,8 +12,8 @@ export const Nav = () => {
           </li>
 
           <li className="menu-list__item">
-            <NavLink to="/booking/active" className="menu-list__link">
-              <span className="menu-list__title">Active</span>
+            <NavLink to="/booking/pending" className="menu-list__link">
+              <span className="menu-list__title">Pending</span>
             </NavLink>
           </li>
 

@@ -60,8 +60,8 @@ export const ReservationHistory = () => {
         <Link to="/booking">
           <button className="button">Home</button>
         </Link>
-        <Link to="/booking/active">
-          <button className="button">Active Reservations</button>
+        <Link to="/booking/pending">
+          <button className="button">pending Reservations</button>
         </Link>
       </div>
 

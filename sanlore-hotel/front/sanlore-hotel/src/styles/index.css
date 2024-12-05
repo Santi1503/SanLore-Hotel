@@ -156,6 +156,7 @@ code {
   min-height: 100vh;
   background-color: #f3f0e6;
 }
+
 .title {
   display: flex;
   justify-content: center;
@@ -275,4 +276,23 @@ code {
 
 .modal-content button:hover {
   opacity: 0.9;
+}
+
+.active-title {
+  justify-content: center;
+  width: 400px;
+  margin-top: 20px;
+  text-align: center;
+  background-color: #c8c0a7;
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  color: #151a22;
+}
+
+.active-card {
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  margin-top: 30px;
 }
